@@ -7,7 +7,7 @@ package tp1.p1.control;
 public enum Level {
 
 	// TODO fill your code
-	EASY(3 , 1), HARD(5 , 3) , EXPERT(10 , 5); /// FALTA FRECUENCIA
+	EASY(3 , 0.1), HARD(5 , 0.2) , EXPERT(10 , 0.3);
 
 	private int numberOfZombies;
 	

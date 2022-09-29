@@ -51,7 +51,7 @@ public class ZombiesManager {
 		return 0;
 	}
 	
-	private boolean isPositionEmpty(int columna, int fila) { ////////////////////////////
+	public boolean isPositionEmpty(int columna, int fila) { ////////////////////////////lista zombies
 		
 		return true;
 	}

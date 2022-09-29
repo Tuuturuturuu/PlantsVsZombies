@@ -32,7 +32,6 @@ public class GamePrinter {
 	public GamePrinter(Game game) {
 		this.game = game;
 
-
 	}
 
 	/**
