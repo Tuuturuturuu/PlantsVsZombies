@@ -29,6 +29,7 @@ public class NoneCommand extends Command {
 	}
 
 	public ExecutionResult execute(GameWorld game) {
+		game.update();
 		return new ExecutionResult(true);
 	}
 

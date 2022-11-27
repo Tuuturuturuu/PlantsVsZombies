@@ -2,6 +2,7 @@ package tp1.p2.logic;
 
 import java.util.Random;
 
+import tp1.p2.logic.actions.SunsCreate;
 import tp1.p2.logic.gameobjects.Sun;
 
 public class SunsManager {
@@ -35,7 +36,7 @@ public class SunsManager {
 
 	public void update() {
 		if (cooldown == 0) {
-			addSun();
+			game.addAction(new SunsCreate());
 			cooldown = COOLDOWN_RANDOM_SUN;
 		} else {
 			cooldown--;

@@ -76,9 +76,7 @@ public class Controller {
 				// 3-4. Game Action & Update
 
 				refreshDisplay = game.execute(command);
-				if (refreshDisplay) {
-					game.update();
-				}
+				
 
 			} else {
 				refreshDisplay = false;

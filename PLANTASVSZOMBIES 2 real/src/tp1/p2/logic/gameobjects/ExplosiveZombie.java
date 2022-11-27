@@ -36,7 +36,7 @@ public class ExplosiveZombie extends Zombies {
 		return EXPLOSIVE_ZOMBIE_FRECUENCIA;
 	}
 	public void onExit() {
-		game.lessRemainingZombies();	
+		game.zombieOnExit();
 		game.addAction(new ExplosionAction (col , row, EXPLOSIVE_ZOMBIE_DAÑO_EXPLOSIVE, this.receiveZombieAttack(0)));
 	}
 

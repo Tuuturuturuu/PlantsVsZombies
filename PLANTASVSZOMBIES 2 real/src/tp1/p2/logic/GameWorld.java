@@ -30,19 +30,19 @@ public interface GameWorld {
 
 	void consumeSuns(int coste);
 	
-	public void lessRemainingZombies();
 	void playerQuits();
 
 	void reset();
 
 	void reset(Level level, long seed);
 
-	void zombiesOnEnter();
-
-
 	void addAction(GameAction action);
 
 	void addSunCoins();
+
+	void update();
+
+	void zombieOnExit();
 
 	
 

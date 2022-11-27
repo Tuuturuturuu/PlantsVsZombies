@@ -18,16 +18,17 @@ public class ZombiesManager {
 
 	private Random rand;
 
+	private int zombiesAlived;
+	
 	private int remainingZombies;
 	
-	private int zombiesAlived;
 
 	public ZombiesManager(GameWorld game, Level level, Random rand) {
 		this.game = game;
 		this.level = level;
 		this.rand = rand;
-		this.remainingZombies = level.getNumberOfZombies();
 		this.zombiesAlived = 0;
+		this.remainingZombies = level.getNumberOfZombies();
 	}
 
 	/**
@@ -62,12 +63,13 @@ public class ZombiesManager {
 	}
 
 	public boolean addZombie(int row) {
-		boolean canAdd = remainingZombies > 0 && shouldAddZombie() && isPositionEmpty(GameWorld.NUM_COLS, row);
+		boolean canAdd = getRemainingZombies() > 0 && shouldAddZombie() && isPositionEmpty(GameWorld.NUM_COLS, row);
 		int zombieType = randomZombieType();
 
 		if (canAdd) {
-			remainingZombies--;
+			zombiesAlived++;
 			game.addItem(ZombieFactory.spawnZombie(zombieType, game, GameWorld.NUM_COLS, row));
+			remainingZombies--;
 		}
 		return canAdd;
 	}
@@ -76,12 +78,17 @@ public class ZombiesManager {
 		return 	!game.isPositionFullOcuped(numCols, row);
 	}
 	
-	public void zombiesOnEnter() {
-		zombiesAlived++;
+	public int getZombiesAlived() {
+		return zombiesAlived;
 	}
-	public void zombiesOnExit() {
+	public int getRemainingZombies() {
+		return remainingZombies;
+	}
+	public void onExit() {
 		zombiesAlived--;
 	}
+	
+	
 
 	// TODO add your code here
 

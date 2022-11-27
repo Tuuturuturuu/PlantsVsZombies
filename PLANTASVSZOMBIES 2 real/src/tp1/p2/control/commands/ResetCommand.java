@@ -7,6 +7,7 @@ import tp1.p2.control.ExecutionResult;
 import tp1.p2.control.Level;
 import tp1.p2.logic.GameWorld;
 import tp1.p2.view.Messages;
+import tp1.utils.StringUtils;
 
 public class ResetCommand extends Command {
 
@@ -49,11 +50,16 @@ public class ResetCommand extends Command {
 
 	public Command create(String[] parameters) {
 		if (parameters.length == 3) {
-			seed = Long.parseLong(parameters[1]);
-			level = Level.valueOfIgnoreCase(parameters[2]);
+			try {
+				seed = Long.parseLong(parameters[2]);
+				level = Level.valueOfIgnoreCase(parameters[1]); 
+	        } catch (NumberFormatException ex) {
+	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
+	            return null;
+	        }
+			
 			return this;
 		}
-
 		else if (parameters.length == 1) {
 			seed = -1;
 			return this;

@@ -38,10 +38,9 @@ public class Game implements GameStatus, GameWorld {
 	
 	private boolean playerQuit;
 	
-	private int remainingZombies;
-	
 	private String ganador;
 	
+	private Random rand;
 	
 
 	// TODO add your attributes here
@@ -50,7 +49,7 @@ public class Game implements GameStatus, GameWorld {
 		this.seed = seed;
 		this.level = level;
 		reset();
-		cycle++;
+		
 	}
 
 	/**
@@ -71,18 +70,20 @@ public class Game implements GameStatus, GameWorld {
 	public void reset(Level level, long seed) {
 		this.seed = seed;
 		this.level = level;
+		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
-		this.remainingZombies = level.getNumberOfZombies();
-		this.zombiesManager = new ZombiesManager(this, level, new Random(seed));
-		this.sunsManager = new SunsManager(this, new Random(seed));
+		
+		this.zombiesManager = new ZombiesManager(this, level, rand);
+		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
 		Sun.cogidos = 0;
 		Sun.generados = 0;
-		this.cycle = -1;
+		this.cycle = 0;
 		this.actions = new ArrayDeque<>();
 		ganador = "Player Quits";
 		System.out.println(String.format(Messages.CONFIGURED_LEVEL, level.name()));
 		System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
+	
 	}
 	
 	public void playerQuits(){
@@ -106,9 +107,6 @@ public class Game implements GameStatus, GameWorld {
 		return container.positionToString(col, row);
 	}
 	
-	public int getRemainingZombies() {
-		return remainingZombies;
-	}
 	public int getCycle() {
 		return cycle;
 	}
@@ -121,14 +119,6 @@ public class Game implements GameStatus, GameWorld {
 	}
 	public void consumeSuns(int coste) {
 		suns = suns - coste;
-	}
-	
-	public void lessRemainingZombies() {
-		remainingZombies--;
-		zombiesManager.zombiesOnExit();
-	}
-	public void zombiesOnEnter() {
-		zombiesManager.zombiesOnEnter();
 	}
 	
 	public boolean tryToCatchObject(int col, int row) {	
@@ -198,7 +188,7 @@ public class Game implements GameStatus, GameWorld {
 	}
 	
 	public boolean isFinished() {
-		if (!(getRemainingZombies() == 0)) {
+		if (!(zombiesManager.getZombiesAlived() == 0 && zombiesManager.getRemainingZombies() == 0 )) {
 			for (int i = 0; i < NUM_ROWS ; i++) {
 				if(isPositionFullOcuped( -1 , i)) {
 					ganador = Messages.ZOMBIES_WIN;
@@ -238,6 +228,16 @@ public class Game implements GameStatus, GameWorld {
 		suns += SUNSCOINS_X_SUN;
 		
 	}
+	
+	public void zombieOnExit() {
+		zombiesManager.onExit();
+	}
+
+	public int getRemainingZombies() {
+		return zombiesManager.getRemainingZombies();
+	}
+
+	
 
 	
 

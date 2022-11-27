@@ -51,7 +51,7 @@ public abstract class Zombies extends GameObject {
 		return false;
 	}
 	
-	public void update() { // preguntar si si esta apunto de andar y si se le pone una planta se reinicia sus ciclos o no al atacarla
+	public void update() {
 		if (game.isPositionFullOcuped(col - 1 , row)) {
 			GameItem item = game.getGameItemInPosition(col - 1, row);
 		    if(item != null ) {  
@@ -65,11 +65,10 @@ public abstract class Zombies extends GameObject {
 	}
 	
 	public void onEnter() {
-		game.zombiesOnEnter();
 	}
 
 	public void onExit() {
-		game.lessRemainingZombies();	
+			game.zombieOnExit();
 	}
 	
 	public boolean catchObject() {

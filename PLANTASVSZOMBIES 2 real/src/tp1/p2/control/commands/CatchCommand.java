@@ -66,13 +66,18 @@ public class CatchCommand extends Command {
 			return new ExecutionResult(Messages.error(Messages.SUN_ALREADY_CAUGHT));
 		}
 		
-		return new ExecutionResult(false);
+		return new ExecutionResult(true);
 	}
 
 	public Command create(String[] parameters) {
 		if (parameters.length == 3) {
-			col = Integer.parseInt(parameters[1]);
-			row = Integer.parseInt(parameters[2]);
+			try {
+				col = Integer.parseInt(parameters[1]);
+				row = Integer.parseInt(parameters[2]);
+	        } catch (NumberFormatException ex) {
+	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
+	            return null;
+	        }
 			return this;
 		} else if (parameters.length < 3) {
 			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));

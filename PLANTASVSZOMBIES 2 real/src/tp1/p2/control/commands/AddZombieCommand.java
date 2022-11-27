@@ -52,6 +52,7 @@ public class AddZombieCommand extends Command {
 				error = Messages.INVALID_GAME_OBJECT;
 			} else {
 				game.addItem(zombie);
+				game.update();
 				return new ExecutionResult(true);
 			}
 		} else {
@@ -61,10 +62,15 @@ public class AddZombieCommand extends Command {
 	}
 
 	public Command create(String[] parameters) {
-		if (parameters.length == 4) {
-			zombieIdx = Integer.parseInt(parameters[1]);
-			col = Integer.parseInt(parameters[2]);
-			row = Integer.parseInt(parameters[3]);
+		if (parameters.length == 4) {	
+			try {
+				zombieIdx = Integer.parseInt(parameters[1]);
+				col = Integer.parseInt(parameters[2]);
+				row = Integer.parseInt(parameters[3]);
+	        } catch (NumberFormatException ex) {
+	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
+	            return null;
+	        }
 			return this;
 		} else if (parameters.length < 4) { 
 			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));

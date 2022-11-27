@@ -42,6 +42,7 @@ public class AddPlantCheatCommand extends Command implements Cloneable {
 				error = Messages.INVALID_GAME_OBJECT;
 			} else {
 				game.addItem(plant);
+				game.update();
 				return new ExecutionResult(true);
 			}
 		} else {
@@ -54,8 +55,13 @@ public class AddPlantCheatCommand extends Command implements Cloneable {
 		consumeCoins = false;
 		if (parameters.length == 4) {
 			plantName = parameters[1];
-			col = Integer.parseInt(parameters[2]);
-			row = Integer.parseInt(parameters[3]);
+			try {
+				col = Integer.parseInt(parameters[2]);
+				row = Integer.parseInt(parameters[3]);
+	        } catch (NumberFormatException ex) {
+	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
+	            return null;
+	        }
 			return this;
 		}
 		else if(parameters.length < 4) { 

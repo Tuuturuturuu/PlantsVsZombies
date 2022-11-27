@@ -10,7 +10,7 @@ public class Zombie extends Zombies {
 	public static final int ZOMBIE_RESISTENCIA = 5;
 	
 	public Zombie(int col, int row, GameWorld game) {
-		super(col, row, ZOMBIE_RESISTENCIA, ZOMBIE_FRECUENCIA, game, ZOMBIE_DAÑO);
+		super(col, row, ZOMBIE_FRECUENCIA  , ZOMBIE_RESISTENCIA, game, ZOMBIE_DAÑO);
 	}
 	
 	public Zombie() {

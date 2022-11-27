@@ -59,6 +59,7 @@ public class AddPlantCommand extends Command implements Cloneable {
 				else {
 					game.addItem(plant); 
 					game.consumeSuns(plant.getCoste());
+					game.update();
 					return new ExecutionResult(true);
 				}
 			}
@@ -72,8 +73,14 @@ public class AddPlantCommand extends Command implements Cloneable {
 	public Command create(String[] parameters) {
 		if (parameters.length == 4) {
 			plantName = parameters[1];
-			col = Integer.parseInt(parameters[2]);
-			row = Integer.parseInt(parameters[3]);
+			try {
+				col = Integer.parseInt(parameters[2]);
+				row = Integer.parseInt(parameters[3]);
+	        } catch (NumberFormatException ex) {
+	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
+	            return null;
+	        }
+			
 			return this;
 		}
 		else if(parameters.length < 4) { 

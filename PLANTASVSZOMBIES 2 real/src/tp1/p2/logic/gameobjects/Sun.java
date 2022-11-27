@@ -30,6 +30,7 @@ public class Sun extends GameObject {
 	public boolean catchObject() {
 		vida = 0;
 		game.addSunCoins();
+		cogidos++;
 		return true;
 	}
 
@@ -46,13 +47,10 @@ public class Sun extends GameObject {
 	}
 
 	public void onEnter() {
-
 		generados++;
 	}
 
 	public void onExit() {
-		cogidos++;
-
 	}
 
 }
