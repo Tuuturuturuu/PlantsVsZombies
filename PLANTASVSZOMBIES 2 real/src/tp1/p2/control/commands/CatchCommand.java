@@ -55,12 +55,9 @@ public class CatchCommand extends Command {
 				while(cogido) {
 					cogido = game.tryToCatchObject(col, row);
 				}
-				System.out.println("Soles cogidos"); // en principio hay q printear el game pero ns
+				
 			}
-			else {
-				System.out.println(Messages.error("No hay soles en esta posicion"));
 			
-			}
 		}
 		else {
 			return new ExecutionResult(Messages.error(Messages.SUN_ALREADY_CAUGHT));
