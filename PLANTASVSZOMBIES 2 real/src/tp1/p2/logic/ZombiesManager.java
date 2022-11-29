@@ -88,8 +88,5 @@ public class ZombiesManager {
 		zombiesAlived--;
 	}
 	
-	
-
-	// TODO add your code here
 
 }

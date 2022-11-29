@@ -7,7 +7,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Random;
 
-
 import tp1.p2.control.Command;
 import tp1.p2.control.ExecutionResult;
 import tp1.p2.control.Level;
@@ -28,20 +27,19 @@ public class Game implements GameStatus, GameWorld {
 	private int cycle;
 
 	private GameObjectContainer container;
-	
+
 	private ZombiesManager zombiesManager;
 	private SunsManager sunsManager;
 
 	private Deque<GameAction> actions;
 
 	private int suns;
-	
+
 	private boolean playerQuit;
-	
+
 	private String ganador;
-	
+
 	private Random rand;
-	
 
 	// TODO add your attributes here
 
@@ -49,7 +47,7 @@ public class Game implements GameStatus, GameWorld {
 		this.seed = seed;
 		this.level = level;
 		reset();
-		
+
 	}
 
 	/**
@@ -72,7 +70,7 @@ public class Game implements GameStatus, GameWorld {
 		this.level = level;
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
-		
+
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -83,10 +81,10 @@ public class Game implements GameStatus, GameWorld {
 		ganador = "Player Quits";
 		System.out.println(String.format(Messages.CONFIGURED_LEVEL, level.name()));
 		System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
-	
+
 	}
-	
-	public void playerQuits(){
+
+	public void playerQuits() {
 		playerQuit = true;
 	}
 
@@ -94,42 +92,73 @@ public class Game implements GameStatus, GameWorld {
 		return playerQuit;
 	}
 
-	
 	public boolean isPositionFullOcuped(int col, int row) {
 		return container.isPositionFullOcuped(col, row);
 	}
 
 	public GameItem getGameItemInPosition(int col, int row) {
-		return container.getItem(col , row);
+		return container.getItem(col, row);
 	}
-	
+
 	public String positionToString(int col, int row) {
 		return container.positionToString(col, row);
 	}
-	
+
 	public int getCycle() {
 		return cycle;
 	}
+
 	public int getSuncoins() {
 		return suns;
 	}
-	
+
+	public int getGeneratedSuns() {
+		return Sun.generados;
+	}
+
+	public int getCaughtSuns() {
+		return Sun.cogidos;
+	}
+
+	public int getRemainingZombies() {
+		return zombiesManager.getRemainingZombies();
+	}
+
+	public String getGanador() {
+		return ganador;
+	}
+
 	public void addSun() {
 		sunsManager.addSun();
 	}
+
+	public boolean addItem(GameObject gameObject) {
+		container.addObject(gameObject);
+		return true;
+	}
+
+	public void addAction(GameAction action) {
+		actions.add(action);
+	}
+
+	public void addSunCoins() {
+		suns += SUNSCOINS_X_SUN;
+
+	}
+
 	public void consumeSuns(int coste) {
 		suns = suns - coste;
 	}
-	
-	public boolean tryToCatchObject(int col, int row) {	
+
+	public boolean tryToCatchObject(int col, int row) {
 		GameItem item = container.getSun(col, row);
-		if (item != null) {	
+		if (item != null) {
 			return item.catchObject();
 		}
 		return false;
-		
+
 	}
-	
+
 	/**
 	 * Executes the game actions and update the game objects in the board.
 	 * 
@@ -141,13 +170,11 @@ public class Game implements GameStatus, GameWorld {
 		executePendingActions();
 
 		// 2. Execute game Actions
-		// TODO add your code here
 		zombiesManager.update();
 		sunsManager.update();
 
 		// 3. Game object updates
-		
-		// TODO add your code here
+
 		container.update();
 
 		// 4. & 5. Remove dead and execute pending actions
@@ -159,9 +186,8 @@ public class Game implements GameStatus, GameWorld {
 			// 5. execute pending actions
 			executePendingActions();
 		}
-		
+
 		this.cycle++;
-		
 
 		// 6. Notify commands that a new cycle started
 		Command.newCycle();
@@ -175,7 +201,7 @@ public class Game implements GameStatus, GameWorld {
 		}
 		return result.draw();
 	}
-	
+
 	private boolean areTherePendingActions() {
 		return this.actions.size() > 0;
 	}
@@ -186,11 +212,11 @@ public class Game implements GameStatus, GameWorld {
 			action.execute(this);
 		}
 	}
-	
+
 	public boolean isFinished() {
-		if (!(zombiesManager.getZombiesAlived() == 0 && zombiesManager.getRemainingZombies() == 0 )) {
-			for (int i = 0; i < NUM_ROWS ; i++) {
-				if(isPositionFullOcuped( -1 , i)) {
+		if (!(zombiesManager.getZombiesAlived() == 0 && zombiesManager.getRemainingZombies() == 0)) {
+			for (int i = 0; i < NUM_ROWS; i++) {
+				if (isPositionFullOcuped(-1, i)) {
 					ganador = Messages.ZOMBIES_WIN;
 					return true;
 				}
@@ -198,49 +224,11 @@ public class Game implements GameStatus, GameWorld {
 			return false;
 		}
 		ganador = Messages.PLAYER_WINS;
-			return true;	
-	}
-	
-	public String getGanador() {
-		return ganador;
-	}
-	
-
-	public boolean addItem(GameObject gameObject) {
-		container.addObject(gameObject);
 		return true;
 	}
 
-	public int getGeneratedSuns() {
-		return Sun.generados;
-	}
-
-	public int getCaughtSuns() {
-		return Sun.cogidos;
-	}
-
-
-	public void addAction(GameAction action) {
-		actions.add(action);
-	}
-
-	public void addSunCoins() {
-		suns += SUNSCOINS_X_SUN;
-		
-	}
-	
 	public void zombieOnExit() {
 		zombiesManager.onExit();
 	}
-
-	public int getRemainingZombies() {
-		return zombiesManager.getRemainingZombies();
-	}
-
-	
-
-	
-
-	// TODO add your code here
 
 }

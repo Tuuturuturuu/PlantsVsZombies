@@ -20,18 +20,14 @@ public class SunsManager {
 		this.game = game;
 		this.rand = rand;
 		this.cooldown = COOLDOWN_RANDOM_SUN;
-		
-		// TODO add your code here
 	}
 
 	public int getCatchedSuns() {
 		return Sun.cogidos;
-		// TODO add your code here
 	}
 
 	public int getGeneratedSuns() {
 		return Sun.generados; 
-		// TODO add your code here
 	}
 
 	public void update() {
@@ -40,8 +36,7 @@ public class SunsManager {
 			cooldown = COOLDOWN_RANDOM_SUN;
 		} else {
 			cooldown--;
-		}
-		
+		}	
 	}
 
 	private int getRandomInt(int bound) {

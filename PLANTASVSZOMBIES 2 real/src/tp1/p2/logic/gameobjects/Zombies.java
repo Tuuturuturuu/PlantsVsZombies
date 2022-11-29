@@ -55,7 +55,7 @@ public abstract class Zombies extends GameObject {
 		if (game.isPositionFullOcuped(col - 1 , row)) {
 			GameItem item = game.getGameItemInPosition(col - 1, row);
 		    if(item != null ) {  
-		        item.receiveZombieAttack(this.damage);	       
+		        item.receiveZombieAttack(this.damage);	 
 		    }
 		}
 		else {

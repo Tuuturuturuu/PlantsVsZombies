@@ -54,8 +54,7 @@ public class CatchCommand extends Command {
 			if (caughtSunThisCycle) {
 				while(cogido) {
 					cogido = game.tryToCatchObject(col, row);
-				}
-				
+				}	
 			}
 			
 		}

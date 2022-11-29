@@ -7,10 +7,12 @@ import tp1.p2.view.Messages;
 public class Peashooter extends Planta {
 
 	public static final int PEASHOOTER_COSTE = 50;
-	public static final int PEASHOOTER_FRECUENCIA = 1;
+	public static final int PEASHOOTER_FRECUENCIA = 0;
 	public static final int PEASHOOTER_DAÑO = 1;
 	public static final int PEASHOOTER_RESISTENCIA = 3;
-
+	
+	
+	
 	public Peashooter(int col, int row, GameWorld game) {
 		super(col, row, PEASHOOTER_FRECUENCIA, PEASHOOTER_RESISTENCIA, game, PEASHOOTER_DAÑO);
 	}
@@ -45,9 +47,11 @@ public class Peashooter extends Planta {
 	}
 
 	public void update() {
+		
 		boolean colision = false;
 		int i = col + 1;
-		nCiclos++;
+		
+		nCiclos ++; 
 		if (nCiclos >= PEASHOOTER_FRECUENCIA) {
 			while (colision == false && i < GameWorld.NUM_COLS) {
 				if (game.isPositionFullOcuped(i, row)) {
