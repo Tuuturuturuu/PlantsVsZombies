@@ -37,8 +37,11 @@ public abstract class Zombies extends GameObject {
 		return false;
 	}
 	
-	public boolean receivePlantAttack(int damage) {	
+	public boolean receivePlantAttack(int damage , boolean explosion) {	
 		vida = vida - damage; 
+		if (vida < 0 && explosion) {
+			game.addPuntos(10);
+		}
 		return true;
 	}
 	

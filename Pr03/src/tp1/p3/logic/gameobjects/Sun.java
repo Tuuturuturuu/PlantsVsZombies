@@ -19,7 +19,7 @@ public class Sun extends GameObject {
 		return false;
 	}
 
-	public boolean receivePlantAttack(int damage) {
+	public boolean receivePlantAttack(int damage , boolean explosion) {
 		return false;
 	}
 
@@ -52,5 +52,7 @@ public class Sun extends GameObject {
 
 	public void onExit() {
 	}
+
+	
 
 }

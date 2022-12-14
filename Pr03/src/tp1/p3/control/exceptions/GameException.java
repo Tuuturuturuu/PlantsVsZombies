@@ -1,10 +1,19 @@
 package tp1.p3.control.exceptions;
 
-public class GameException {
+public class GameException extends Exception {
 
-	public String getMessage() {
-		// TODO Auto-generated method stub
-		return null;
+	private static final long serialVersionUID = 1L;
+
+	public GameException(String message) {
+		super(message);
+	}
+
+	public GameException(Throwable cause) {
+		super(cause);
+	}
+
+	public GameException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 }

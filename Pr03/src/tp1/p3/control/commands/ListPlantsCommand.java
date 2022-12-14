@@ -1,7 +1,7 @@
 package tp1.p3.control.commands;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.logic.gameobjects.PlantFactory;
 import tp1.p3.logic.gameobjects.Planta;
@@ -26,7 +26,7 @@ public class ListPlantsCommand extends Command {
 	}
 
 	
-	public ExecutionResult execute(GameWorld game) {
+	public boolean execute(GameWorld game) throws GameException {
 		System.out.println(Messages.AVAILABLE_PLANTS);
 		for (Planta plant: PlantFactory.getAvailablePlants()) {
 			System.out.println(plant.getDescription());
@@ -34,7 +34,7 @@ public class ListPlantsCommand extends Command {
 
 		System.out.println();
 
-		return new ExecutionResult(false);
+		return false;
 	}
 
 }

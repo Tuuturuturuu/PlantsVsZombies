@@ -20,11 +20,12 @@ public interface GameItem {
 	 * Receive a plant attack.
 	 * 
 	 * @param damage Received damage.
+	 * @param b 
 	 * 
 	 * @return <code>true</code> if a plant has been attacked, <code>false</code>
 	 *         otherwise.
 	 */
-	boolean receivePlantAttack(int damage);
+	boolean receivePlantAttack(int damage, boolean b);
 
 	/**
 	 * Checks if the game object fills its current position, that is, does not allow other {@link GameObject} to share its position.

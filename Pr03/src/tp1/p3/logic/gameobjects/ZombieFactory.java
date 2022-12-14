@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
+import tp1.p3.view.Messages;
 
 public class ZombieFactory {
 
@@ -21,11 +23,11 @@ public class ZombieFactory {
 		return zombieIdx >= 0 && zombieIdx < AVAILABLE_ZOMBIES.size();
 	}
 
-	public static Zombies spawnZombie(int zombieIdx, GameWorld game, int col, int row) {
+	public static Zombies spawnZombie(int zombieIdx, GameWorld game, int col, int row) throws GameException  {
 		if (!isValidZombie(zombieIdx)) {
-			return null;
+			throw new GameException(Messages.INVALID_GAME_OBJECT);
 		}
-		return AVAILABLE_ZOMBIES.get(zombieIdx).create(game ,col, row); // mirar si se puede
+		return AVAILABLE_ZOMBIES.get(zombieIdx).create(game ,col, row); 
 	}
 
 	public static List<Zombies> getAvailableZombies() {

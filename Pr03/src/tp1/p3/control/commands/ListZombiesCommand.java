@@ -1,7 +1,7 @@
 package tp1.p3.control.commands;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.logic.gameobjects.PlantFactory;
 import tp1.p3.logic.gameobjects.Planta;
@@ -27,14 +27,14 @@ public class ListZombiesCommand extends Command {
 		return Messages.COMMAND_LIST_ZOMBIES_HELP;
 	}
 
-	public ExecutionResult execute(GameWorld game) {
+	public boolean execute(GameWorld game) throws GameException {
 		System.out.println(Messages.AVAILABLE_ZOMBIES);
 		for (Zombies zombie: ZombieFactory.getAvailableZombies()) {
 			System.out.println(zombie.getDescription());
 		}
 
 		System.out.println();
-		return new ExecutionResult(false);
+		return false;
 	}
 
 }

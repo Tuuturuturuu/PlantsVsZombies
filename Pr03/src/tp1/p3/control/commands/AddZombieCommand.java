@@ -3,6 +3,7 @@ package tp1.p3.control.commands;
 import static tp1.p3.view.Messages.error;
 
 import tp1.p3.control.Command;
+import tp1.p3.control.exceptions.CommandExecuteException;
 import tp1.p3.control.exceptions.CommandParseException;
 import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
@@ -45,40 +46,30 @@ public class AddZombieCommand extends Command {
 	}
 
 	public boolean execute(GameWorld game) throws GameException {
-		String error;
 
-		if (col < GameWorld.NUM_COLS + 1 && row < GameWorld.NUM_ROWS && !game.isPositionFullOcuped(col, row)) {
-			Zombies zombie = ZombieFactory.spawnZombie(this.zombieIdx, game, col, row);
-			if (zombie == null) {
-				error = Messages.INVALID_GAME_OBJECT;
-			} else {
-				game.addItem(zombie);
-				game.update();
-				return true;
-			}
-		} else {
-			error = Messages.INVALID_POSITION;
-		}
-		return false;
+		game.checkValidZombiePosition(col, row);
+		Zombies zombie = ZombieFactory.spawnZombie(this.zombieIdx, game, col, row);
+		game.addItem(zombie);
+		game.update();
+		return true;
+
 	}
 
 	public Command create(String[] parameters) throws GameException {
-		if (parameters.length == 4) {	
+		if (parameters.length == 4) {
 			try {
 				zombieIdx = Integer.parseInt(parameters[1]);
 				col = Integer.parseInt(parameters[2]);
 				row = Integer.parseInt(parameters[3]);
-	        } catch (NumberFormatException ex) {
-	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
-	            return null;
-	        }
+			} catch (NumberFormatException ex) {
+				throw new CommandParseException(Messages.INVALID_POSITION.formatted(parameters[2], parameters[3]), ex);
+			}
 			return this;
-		} else if (parameters.length < 4) { 
-			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));
+		} else if (parameters.length < 4) {
+			throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
 		} else {
-			System.out.println(Messages.error(Messages.INVALID_COMMAND));
+			throw new CommandParseException(Messages.INVALID_COMMAND);
 		}
-		return null;
 	}
 
 }

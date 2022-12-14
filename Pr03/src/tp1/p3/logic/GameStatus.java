@@ -45,9 +45,12 @@ public interface GameStatus {
 	int getCaughtSuns();
 
 	String getGanador();
-
 	
-
+	int getScore();
+/*
+	* Get number of remaining zombies for this game.
+	*  @return the remaining zombies.
+*/
 	// TODO add your code here
 
 }

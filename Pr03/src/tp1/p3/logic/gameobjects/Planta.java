@@ -44,13 +44,10 @@ public abstract class Planta extends GameObject {
 	
 	public boolean receiveZombieAttack(int damage) {
 		vida = vida - damage; 
-		if (vida == 0) {
-			//game.objetoMuerto(this);
-		}
 		return true;
 	}
 	
-	public boolean receivePlantAttack(int damage) {	
+	public boolean receivePlantAttack(int damage , boolean explosion) {	
 		return false;
 	}
 	

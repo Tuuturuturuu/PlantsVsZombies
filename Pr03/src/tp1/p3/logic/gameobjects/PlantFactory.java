@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import tp1.p3.control.exceptions.CommandExecuteException;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
+import tp1.p3.view.Messages;
 
 public class PlantFactory {
 
@@ -27,7 +30,7 @@ public class PlantFactory {
 		return false;
 	}
 
-	public static Planta spawnPlant(String plantName, GameWorld game, int col, int row) {
+	public static Planta spawnPlant(String plantName, GameWorld game, int col, int row) throws GameException {
 		if (isValidPlant(plantName)){
 			for (Planta p : AVAILABLE_PLANTS) {
 				if (p.matchPlant(plantName)) {
@@ -35,7 +38,7 @@ public class PlantFactory {
 				}
 			}
 		}
-		return null;
+		throw new CommandExecuteException(Messages.INVALID_GAME_OBJECT);
 	}
 
 	public static Iterable<Planta> getAvailablePlants() {

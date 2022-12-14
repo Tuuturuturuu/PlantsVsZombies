@@ -1,7 +1,10 @@
 package tp1.p3.logic;
 
+
 import tp1.p3.control.Command;
 import tp1.p3.control.Level;
+import tp1.p3.control.exceptions.GameException;
+import tp1.p3.control.exceptions.RecordException;
 import tp1.p3.logic.actions.GameAction;
 import tp1.p3.logic.gameobjects.GameObject;
 
@@ -16,34 +19,41 @@ public interface GameWorld {
 
 	void addSun();
 
-	boolean tryToCatchObject(int col, int row);
+	void tryToCatchObject(int col, int row) throws GameException;
 
 	boolean addItem(GameObject gameObject);
 	
-	boolean execute(Command command);
+	boolean execute(Command command) throws GameException;
 
 	int getSuncoins();
 
 	boolean isPositionFullOcuped(int i, int row);
 
 	GameItem getGameItemInPosition(int i, int row);
-
-	void consumeSuns(int coste);
 	
 	void playerQuits();
 
-	void reset();
+	void reset() throws GameException;
 
-	void reset(Level level, long seed);
+	void reset(Level level, long seed) throws RecordException;
 
 	void addAction(GameAction action);
 
 	void addSunCoins();
 
-	void update();
+	void update() throws GameException;
 
 	void zombieOnExit();
 
+	void tryToBuy(int cost) throws GameException;
+
+	void checkValidPlantPosition(int col, int row) throws GameException;
+
+	void checkValidZombiePosition(int col, int row) throws GameException;
+
+	void checkValidObjectPosition(int col, int row) throws GameException;
+
+	void addPuntos(int puntos);
 	
 
 }

@@ -53,6 +53,7 @@ public class GamePrinter {
         buffer.append(Messages.REMAINING_ZOMBIES + " " + game.getRemainingZombies() + NEW_LINE);
 		buffer.append(Messages.GENERATED_SUNS + " " + game.getGeneratedSuns()+ NEW_LINE);
 		buffer.append(Messages.CAUGHT_SUNS + " " + game.getCaughtSuns()+ NEW_LINE);
+		buffer.append(Messages.SCORE + " " + game.getScore()+ NEW_LINE);
         /* @formatter:on */
 
 		return buffer.toString();
@@ -100,7 +101,6 @@ public class GamePrinter {
 	 *         finished.
 	 */
 	public String endMessage() {
-		System.out.println(game.getGanador());
-		return Messages.END_MESSAGE;
+		return Messages.END_MESSAGE + NEW_LINE + game.getGanador();
 	}
 }

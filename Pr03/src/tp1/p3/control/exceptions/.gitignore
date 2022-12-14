@@ -2,3 +2,6 @@
 /GameException.class
 /CommandExecuteException.class
 /NotCatchablePositionException.class
+/InvalidPositionException.class
+/NotEnoughCoinsException.class
+/RecordException.class

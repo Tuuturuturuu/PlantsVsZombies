@@ -3,7 +3,8 @@ package tp1.p3.control.commands;
 import static tp1.p3.view.Messages.error;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.CommandParseException;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.control.Level;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.view.Messages;
@@ -39,36 +40,33 @@ public class ResetCommand extends Command {
 		return Messages.COMMAND_RESET_HELP;
 	}
 
-	public ExecutionResult execute(GameWorld game) {
+	public boolean execute(GameWorld game) throws GameException {
 		if (seed == -1) {
 			game.reset();
 		} else {
 			game.reset(level, seed);
 		}
-		return new ExecutionResult(true);
+		return true;
 	}
 
-	public Command create(String[] parameters) {
+	public Command create(String[] parameters) throws GameException {
 		if (parameters.length == 3) {
 			try {
 				seed = Long.parseLong(parameters[2]);
-				level = Level.valueOfIgnoreCase(parameters[1]); 
-	        } catch (NumberFormatException ex) {
-	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
-	            return null;
-	        }
-			
+				level = Level.valueOfIgnoreCase(parameters[1]);
+			} catch (NumberFormatException ex) {
+				throw new CommandParseException(Messages.INVALID_COMMAND);
+			}
+
 			return this;
-		}
-		else if (parameters.length == 1) {
+		} else if (parameters.length == 1) {
 			seed = -1;
 			return this;
 		} else if (parameters.length == 2) {
-			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));
+			throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
 		} else {
-			System.out.println(Messages.error(Messages.INVALID_COMMAND));
+			throw new CommandParseException(Messages.INVALID_COMMAND);
 		}
-		return null;
 	}
 
 }

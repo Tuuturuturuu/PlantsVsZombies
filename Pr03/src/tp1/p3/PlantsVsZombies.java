@@ -55,8 +55,9 @@ public class PlantsVsZombies {
 			}
 			System.out.println(Messages.WELCOME);
 
-			System.out.println(String.format(Messages.CONFIGURED_LEVEL, level.name()));
-			System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
+			//System.out.println(String.format(Messages.CONFIGURED_LEVEL, level.name()));
+			//System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
+			
 
 			Game game = new Game(seed, level);
 			Scanner scanner = new Scanner(System.in);

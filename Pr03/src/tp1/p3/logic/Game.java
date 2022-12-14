@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Random;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.CommandExecuteException;
+import tp1.p3.control.exceptions.GameException;
+import tp1.p3.control.exceptions.NotCatchablePositionException;
+import tp1.p3.control.exceptions.NotEnoughCoinsException;
+import tp1.p3.control.exceptions.RecordException;
 import tp1.p3.control.Level;
 import tp1.p3.logic.actions.GameAction;
 import tp1.p3.logic.gameobjects.GameObject;
@@ -18,6 +22,7 @@ import tp1.p3.view.Messages;
 public class Game implements GameStatus, GameWorld {
 
 	public static final int INIT_SUNS = 50;
+	public static final int SCORE_X_ZOMBIE = 10;
 	public static final int SUNSCOINS_X_SUN = 10;
 
 	private long seed;
@@ -34,16 +39,19 @@ public class Game implements GameStatus, GameWorld {
 	private Deque<GameAction> actions;
 
 	private int suns;
+	private int puntos;
 
 	private boolean playerQuit;
 
 	private String ganador;
 
 	private Random rand;
+	
+	private Record record;
 
 	// TODO add your attributes here
 
-	public Game(long seed, Level level) {
+	public Game(long seed, Level level) throws GameException {
 		this.seed = seed;
 		this.level = level;
 		reset();
@@ -54,7 +62,7 @@ public class Game implements GameStatus, GameWorld {
 	 * Resets the game.
 	 */
 
-	public void reset() {
+	public void reset() throws GameException {
 		reset(this.level, this.seed);
 	}
 
@@ -63,22 +71,25 @@ public class Game implements GameStatus, GameWorld {
 	 * 
 	 * @param level {@link Level} Used to initialize the game.
 	 * @param seed  Random seed Used to initialize the game.
+	 * @throws RecordException 
 	 */
 
-	public void reset(Level level, long seed) {
+	public void reset(Level level, long seed) throws RecordException {
 		this.seed = seed;
 		this.level = level;
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
 
+		this.record = new Record(level);
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
 		Sun.cogidos = 0;
 		Sun.generados = 0;
+		this.puntos = 0;
 		this.cycle = 0;
 		this.actions = new ArrayDeque<>();
-		ganador = "Player Quits";
+		ganador = "Player leaves the game";
 		System.out.println(String.format(Messages.CONFIGURED_LEVEL, level.name()));
 		System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
 
@@ -106,6 +117,9 @@ public class Game implements GameStatus, GameWorld {
 
 	public int getCycle() {
 		return cycle;
+	}
+	public int getScore() {
+		return puntos;
 	}
 
 	public int getSuncoins() {
@@ -145,17 +159,31 @@ public class Game implements GameStatus, GameWorld {
 		suns += SUNSCOINS_X_SUN;
 
 	}
-
-	public void consumeSuns(int coste) {
-		suns = suns - coste;
+	
+	public void addPuntos(int puntos) {
+		this.puntos += puntos;
+		
 	}
 
-	public boolean tryToCatchObject(int col, int row) {
-		GameItem item = container.getSun(col, row);
-		if (item != null) {
-			return item.catchObject();
+	public void tryToBuy(int cost) throws GameException {
+		if (suns < cost) {
+			throw new NotEnoughCoinsException(Messages.NOT_ENOUGH_COINS);
+		} else {
+			suns = suns - cost;
 		}
-		return false;
+
+	}
+
+	public void tryToCatchObject(int col, int row) throws GameException {
+		GameItem item = container.getSun(col, row);
+		if (item == null) {
+			throw new NotCatchablePositionException(Messages.NO_CATCHABLE_IN_POSITION.formatted(col, row));
+		}
+
+		while (item != null) {
+			item.catchObject();
+			item = container.getSun(col, row);
+		}
 
 	}
 
@@ -164,7 +192,7 @@ public class Game implements GameStatus, GameWorld {
 	 * 
 	 */
 
-	public void update() {
+	public void update() throws GameException {
 
 		// 1. Execute pending actions
 		executePendingActions();
@@ -191,15 +219,13 @@ public class Game implements GameStatus, GameWorld {
 
 		// 6. Notify commands that a new cycle started
 		Command.newCycle();
+		// 7. Update record
+		// TODO your code here
 
 	}
 
-	public boolean execute(Command command) {
-		ExecutionResult result = command.execute(this);
-		if (result.errorMessage() != null) {
-			System.out.print(Messages.error(result.errorMessage()));
-		}
-		return result.draw();
+	public boolean execute(Command command) throws GameException {
+		return command.execute(this);
 	}
 
 	private boolean areTherePendingActions() {
@@ -229,6 +255,32 @@ public class Game implements GameStatus, GameWorld {
 
 	public void zombieOnExit() {
 		zombiesManager.onExit();
+		addPuntos(SCORE_X_ZOMBIE);
 	}
+
+	public void checkValidObjectPosition(int col, int row) throws GameException {
+		if (container.isPositionFullOcuped(col, row) && col < GameWorld.NUM_COLS && row < GameWorld.NUM_ROWS) {
+			throw new CommandExecuteException(Messages.INVALID_POSITION.formatted(col, row));
+		}
+	}
+
+	// Venian en el enunciado pero no los usaria
+	public void checkValidPlantPosition(int col, int row) throws GameException {
+		checkValidObjectPosition(col, row);
+	}
+
+	public void checkValidZombiePosition(int col, int row) throws GameException {
+		checkValidObjectPosition(col, row);
+	}
+
+	public void cargarRecord() throws RecordException {
+		if (record.getRecord() < puntos) {
+			record.saveRecord("record.txt", puntos);
+		}
+		
+	}
+
+	
+	
 
 }

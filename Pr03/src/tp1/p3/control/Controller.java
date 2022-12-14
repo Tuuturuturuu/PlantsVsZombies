@@ -6,6 +6,7 @@ import static tp1.p3.view.Messages.error;
 import java.util.Scanner;
 
 import tp1.p3.control.exceptions.GameException;
+import tp1.p3.control.exceptions.RecordException;
 import tp1.p3.logic.Game;
 import tp1.p3.view.GamePrinter;
 import tp1.p3.view.Messages;
@@ -58,8 +59,10 @@ public class Controller {
 
 	/**
 	 * Runs the game logic.
+	 * @throws RecordException 
+	 * para que al acabar el juego actualice el record
 	 */
-	public void run() {
+	public void run() throws RecordException {
 		boolean refreshDisplay = true;
 
 		while (!game.isFinished() && !game.isPlayerQuits()) {
@@ -79,7 +82,7 @@ public class Controller {
 				System.out.println(error(e.getMessage()));
 			}
 		}
-		
+		game.cargarRecord();
 		if (refreshDisplay) {
 			printGame();
 

@@ -22,7 +22,7 @@ public class AddPlantCommand extends Command implements Cloneable {
 	private boolean consumeCoins;
 
 	public AddPlantCommand() {
-		this(false); 
+		this(false);
 	}
 
 	public AddPlantCommand(boolean consumeCoins) {
@@ -46,31 +46,20 @@ public class AddPlantCommand extends Command implements Cloneable {
 	}
 
 	public boolean execute(GameWorld game) throws GameException {
-		String error; 
-		
-		if (col < GameWorld.NUM_COLS && row < GameWorld.NUM_ROWS && !game.isPositionFullOcuped(col, row)) {
+
+		if (col < GameWorld.NUM_COLS && row < GameWorld.NUM_ROWS ) {
+			game.checkValidPlantPosition(col, row);
 			Planta plant = PlantFactory.spawnPlant(this.plantName, game, col, row);
-			if (plant == null) {
-				error = Messages.INVALID_GAME_OBJECT;
-			}
-			else {
-				if (plant.getCoste() > game.getSuncoins()) {
-					consumeCoins = false;
-					error = Messages.NOT_ENOUGH_COINS;
-				}
-				else {
-					game.addItem(plant); 
-					game.consumeSuns(plant.getCoste());
-					game.update();
-					return  true;
-				}
-			}
+
+			game.tryToBuy(plant.getCoste());
+			game.addItem(plant);
+			game.update();
+			return true;
+
+		} else {
+			throw new CommandExecuteException(Messages.INVALID_POSITION);
 		}
-		else {
-			error = Messages.INVALID_POSITION;
-		}
-		return false;
-	}
+	} 
 
 	public Command create(String[] parameters) throws GameException {
 		if (parameters.length == 4) {
@@ -78,22 +67,17 @@ public class AddPlantCommand extends Command implements Cloneable {
 			try {
 				col = Integer.parseInt(parameters[2]);
 				row = Integer.parseInt(parameters[3]);
-	        } catch (NumberFormatException ex) {
-	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
-	            return null; // throw
-	        }
-			
+			} catch (NumberFormatException ex) {
+
+				throw new CommandParseException(Messages.INVALID_POSITION.formatted(parameters[2], parameters[3]), ex);
+
+			}
 			return this;
+		} else if (parameters.length < 4) {
+			throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
+		} else {
+			throw new CommandParseException(Messages.INVALID_COMMAND);
 		}
-		else if(parameters.length < 4) { 
-			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));
-		}
-		else {
-			System.out.println(Messages.error(Messages.INVALID_COMMAND));
-		}
-		return null;
 	}
 
 }
-
-

@@ -1,7 +1,7 @@
 package tp1.p3.control.commands;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.view.Messages;
 
@@ -23,9 +23,9 @@ public class ExitCommand extends Command {
 		return Messages.COMMAND_EXIT_HELP;
 	}
 
-	public ExecutionResult execute(GameWorld game) {
+	public boolean execute(GameWorld game) throws GameException {
 		game.playerQuits();
-		return new ExecutionResult(false);
+		return false;
 	}
 
 }

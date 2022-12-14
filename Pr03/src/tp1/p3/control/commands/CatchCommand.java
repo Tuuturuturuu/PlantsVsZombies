@@ -3,10 +3,10 @@ package tp1.p3.control.commands;
 import static tp1.p3.view.Messages.error;
 
 import tp1.p3.control.Command;
-import tp1.p2.control.exceptions.CommandExecuteException;
-import tp1.p2.control.exceptions.CommandParseException;
-import tp1.p2.control.exceptions.GameException;
-import tp1.p2.control.exceptions.NotCatchablePositionException;
+import tp1.p3.control.exceptions.CommandExecuteException;
+import tp1.p3.control.exceptions.CommandParseException;
+import tp1.p3.control.exceptions.GameException;
+import tp1.p3.control.exceptions.NotCatchablePositionException;
 import tp1.p3.control.Level;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.logic.gameobjects.Sun;
@@ -23,7 +23,7 @@ public class CatchCommand extends Command {
 	public CatchCommand() {
 		caughtSunThisCycle = false;
 	}
-	
+
 	protected void newCycleStarted() {
 		caughtSunThisCycle = false;
 	}
@@ -49,41 +49,33 @@ public class CatchCommand extends Command {
 		return Messages.COMMAND_CATCH_HELP;
 	}
 
-	
-	public ExecutionResult execute(GameWorld game) { 
-		boolean cogido = true;
+	public boolean execute(GameWorld game) throws GameException {
 		if (!caughtSunThisCycle) {
-			caughtSunThisCycle = game.tryToCatchObject(col, row);
-			if (caughtSunThisCycle) {
-				while(cogido) {
-					cogido = game.tryToCatchObject(col, row);
-				}	
-			}
-			
+			game.tryToCatchObject(col, row);
+			caughtSunThisCycle = true;
+			// VER COMO HACER PARA QUE COJA TODOS LOS SOLES
+
+		} else {
+			throw new CommandExecuteException(Messages.error(Messages.SUN_ALREADY_CAUGHT));
 		}
-		else {
-			return new ExecutionResult(Messages.error(Messages.SUN_ALREADY_CAUGHT));
-		}
-		
-		return new ExecutionResult(true);
+
+		return true;
 	}
 
-	public Command create(String[] parameters) {
+	public Command create(String[] parameters) throws GameException {
 		if (parameters.length == 3) {
 			try {
 				col = Integer.parseInt(parameters[1]);
 				row = Integer.parseInt(parameters[2]);
-	        } catch (NumberFormatException ex) {
-	        	System.out.println(Messages.error(Messages.INVALID_COMMAND));
-	            return null;
-	        }
+			} catch (NumberFormatException ex) {
+				throw new CommandParseException(Messages.INVALID_POSITION.formatted(parameters[1], parameters[2]), ex);
+			}
 			return this;
 		} else if (parameters.length < 3) {
-			System.out.println(Messages.error(Messages.COMMAND_PARAMETERS_MISSING));
+			throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
 		} else {
-			System.out.println(Messages.error(Messages.INVALID_COMMAND));
+			throw new CommandParseException(Messages.INVALID_COMMAND);
 		}
-		return null;
 	}
 
 }

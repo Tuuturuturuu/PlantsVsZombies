@@ -1,7 +1,7 @@
 package tp1.p3.control.commands;
 
 import tp1.p3.control.Command;
-import tp1.p3.control.ExecutionResult;
+import tp1.p3.control.exceptions.GameException;
 import tp1.p3.logic.GameWorld;
 import tp1.p3.view.Messages;
 
@@ -23,7 +23,7 @@ public class HelpCommand extends Command {
 		return Messages.COMMAND_HELP_HELP;
 	}
 
-	public ExecutionResult execute(GameWorld game) {
+	public boolean execute(GameWorld game) throws GameException {
 		StringBuilder buffer = new StringBuilder(Messages.HELP_AVAILABLE_COMMANDS);
 		buffer.append(Messages.LINE_SEPARATOR);
 		for (Command command : Command.getAvailableCommands()) {
@@ -37,7 +37,7 @@ public class HelpCommand extends Command {
 
 		System.out.println(buffer.toString());
 
-		return new ExecutionResult(false);
+		return false;
 	}
 
 }

@@ -58,7 +58,7 @@ public class Peashooter extends Planta {
 					colision = true;
 					GameItem item = game.getGameItemInPosition(i, row);
 					if (item != null) {
-						item.receivePlantAttack(this.damage);
+						item.receivePlantAttack(this.damage , false);
 					}
 				}
 				i++;
