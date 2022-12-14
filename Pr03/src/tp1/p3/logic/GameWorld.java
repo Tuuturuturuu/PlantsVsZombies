@@ -35,7 +35,7 @@ public interface GameWorld {
 
 	void reset() throws GameException;
 
-	void reset(Level level, long seed) throws RecordException;
+	void reset(Level level, long seed);
 
 	void addAction(GameAction action);
 

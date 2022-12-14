@@ -46,8 +46,6 @@ public class Game implements GameStatus, GameWorld {
 	private String ganador;
 
 	private Random rand;
-	
-	private Record record;
 
 	// TODO add your attributes here
 
@@ -71,16 +69,15 @@ public class Game implements GameStatus, GameWorld {
 	 * 
 	 * @param level {@link Level} Used to initialize the game.
 	 * @param seed  Random seed Used to initialize the game.
-	 * @throws RecordException 
+	 * @throws RecordException
 	 */
 
-	public void reset(Level level, long seed) throws RecordException {
+	public void reset(Level level, long seed) {
 		this.seed = seed;
 		this.level = level;
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
 
-		this.record = new Record(level);
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -94,6 +91,7 @@ public class Game implements GameStatus, GameWorld {
 		System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
 
 	}
+	
 
 	public void playerQuits() {
 		playerQuit = true;
@@ -118,6 +116,7 @@ public class Game implements GameStatus, GameWorld {
 	public int getCycle() {
 		return cycle;
 	}
+
 	public int getScore() {
 		return puntos;
 	}
@@ -159,10 +158,10 @@ public class Game implements GameStatus, GameWorld {
 		suns += SUNSCOINS_X_SUN;
 
 	}
-	
+
 	public void addPuntos(int puntos) {
 		this.puntos += puntos;
-		
+
 	}
 
 	public void tryToBuy(int cost) throws GameException {
@@ -273,14 +272,5 @@ public class Game implements GameStatus, GameWorld {
 		checkValidObjectPosition(col, row);
 	}
 
-	public void cargarRecord() throws RecordException {
-		if (record.getRecord() < puntos) {
-			record.saveRecord("record.txt", puntos);
-		}
-		
-	}
-
-	
-	
 
 }
