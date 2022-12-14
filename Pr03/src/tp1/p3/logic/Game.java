@@ -46,6 +46,8 @@ public class Game implements GameStatus, GameWorld {
 	private String ganador;
 
 	private Random rand;
+	
+	private Record record;
 
 	// TODO add your attributes here
 
@@ -72,12 +74,13 @@ public class Game implements GameStatus, GameWorld {
 	 * @throws RecordException
 	 */
 
-	public void reset(Level level, long seed) {
+	public void reset(Level level, long seed) throws GameException {
 		this.seed = seed;
 		this.level = level;
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
-
+		
+		this.record = new Record(level);
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -219,8 +222,9 @@ public class Game implements GameStatus, GameWorld {
 		// 6. Notify commands that a new cycle started
 		Command.newCycle();
 		// 7. Update record
-		// TODO your code here
-
+		if (puntos > record.getRecord()) {
+			record.saveRecord("C:\\record.txt", puntos);
+		}
 	}
 
 	public boolean execute(Command command) throws GameException {

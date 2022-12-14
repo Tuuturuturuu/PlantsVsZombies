@@ -101,6 +101,6 @@ public class GamePrinter {
 	 *         finished.
 	 */
 	public String endMessage() {
-		return Messages.END_MESSAGE + NEW_LINE + game.getGanador();
+		return Messages.END_MESSAGE + NEW_LINE + game.getGanador() + NEW_LINE + "Puntos: " + game.getScore();
 	}
 }
