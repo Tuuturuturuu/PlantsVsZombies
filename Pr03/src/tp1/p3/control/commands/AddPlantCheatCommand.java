@@ -9,15 +9,17 @@ import tp1.p3.logic.gameobjects.PlantFactory;
 import tp1.p3.logic.gameobjects.Planta;
 import tp1.p3.view.Messages;
 
-public class AddPlantCheatCommand extends Command implements Cloneable {
+public class AddPlantCheatCommand extends AddPlantCommand {
 
-	private int col;
+	
 
-	private int row;
+	public AddPlantCheatCommand() {
+		this(false);
+	}
 
-	private String plantName;
-
-	boolean consumeCoins;
+	public AddPlantCheatCommand(boolean consumeCoins) {
+		this.consumeCoins = consumeCoins;
+	}
 
 	protected String getName() {
 		return Messages.COMMAND_CHEAT_PLANT_NAME;
@@ -33,37 +35,6 @@ public class AddPlantCheatCommand extends Command implements Cloneable {
 
 	public String getHelp() {
 		return Messages.COMMAND_CHEAT_PLANT_HELP;
-	}
-
-	public boolean execute(GameWorld game) throws GameException {
-
-		game.checkValidPlantPosition(col, row);
-		Planta plant = PlantFactory.spawnPlant(this.plantName, game, col, row);
-		game.addItem(plant);
-		game.update();
-		return true;
-
-	}
-
-	public Command create(String[] parameters) throws GameException {
-		consumeCoins = false;
-		if (parameters.length == 4) {
-			plantName = parameters[1];
-			try {
-				col = Integer.parseInt(parameters[2]);
-				row = Integer.parseInt(parameters[3]);
-			} catch (NumberFormatException ex) {
-
-				throw new CommandParseException(Messages.INVALID_POSITION.formatted(parameters[2], parameters[3]), ex);
-
-			}
-			return this;
-		} else if (parameters.length < 4) {
-			throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
-		} else {
-			throw new CommandParseException(Messages.INVALID_COMMAND);
-		}
-
 	}
 
 }

@@ -19,10 +19,10 @@ public class AddPlantCommand extends Command implements Cloneable {
 
 	private String plantName;
 
-	private boolean consumeCoins;
+	protected boolean consumeCoins;
 
 	public AddPlantCommand() {
-		this(false);
+		this(true);
 	}
 
 	public AddPlantCommand(boolean consumeCoins) {
@@ -47,19 +47,16 @@ public class AddPlantCommand extends Command implements Cloneable {
 
 	public boolean execute(GameWorld game) throws GameException {
 
-		if (col < GameWorld.NUM_COLS && row < GameWorld.NUM_ROWS ) {
-			game.checkValidPlantPosition(col, row);
-			Planta plant = PlantFactory.spawnPlant(this.plantName, game, col, row);
-
+		game.checkValidPlantPosition(col, row);
+		Planta plant = PlantFactory.spawnPlant(this.plantName, game, col, row);
+		if (consumeCoins) {
 			game.tryToBuy(plant.getCoste());
-			game.addItem(plant);
-			game.update();
-			return true;
-
-		} else {
-			throw new CommandExecuteException(Messages.INVALID_POSITION);
 		}
-	} 
+		game.addItem(plant);
+		game.update();
+		return true;
+
+	}
 
 	public Command create(String[] parameters) throws GameException {
 		if (parameters.length == 4) {

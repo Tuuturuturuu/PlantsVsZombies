@@ -54,6 +54,10 @@ public interface GameWorld {
 	void checkValidObjectPosition(int col, int row) throws GameException;
 
 	void addPuntos(int puntos);
+
+	Level getLevel();
+
+	int getRecord();
 	
 
 }

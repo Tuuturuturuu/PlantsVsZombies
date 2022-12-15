@@ -23,7 +23,7 @@ public class ShowRecordCommand extends Command{
 	}
 
 	public boolean execute(GameWorld game) {
-		// TODO Auto-generated method stub
+		System.out.println(Messages.CURRENT_RECORD.formatted(game.getLevel() , game.getRecord()));
 		return false;
 	}
 

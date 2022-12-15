@@ -46,7 +46,7 @@ public class Game implements GameStatus, GameWorld {
 	private String ganador;
 
 	private Random rand;
-	
+
 	private Record record;
 
 	// TODO add your attributes here
@@ -79,8 +79,9 @@ public class Game implements GameStatus, GameWorld {
 		this.level = level;
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
-		
+
 		this.record = new Record(level);
+		record.loadRecords("C:\\" + Messages.RECORD_FILENAME);
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -94,7 +95,6 @@ public class Game implements GameStatus, GameWorld {
 		System.out.println(String.format(Messages.CONFIGURED_SEED, seed));
 
 	}
-	
 
 	public void playerQuits() {
 		playerQuit = true;
@@ -114,6 +114,14 @@ public class Game implements GameStatus, GameWorld {
 
 	public String positionToString(int col, int row) {
 		return container.positionToString(col, row);
+	}
+	
+	public Level getLevel() {	
+		return level;
+	}
+
+	public int getRecord() {
+		return record.getRecord();
 	}
 
 	public int getCycle() {
@@ -223,7 +231,7 @@ public class Game implements GameStatus, GameWorld {
 		Command.newCycle();
 		// 7. Update record
 		if (puntos > record.getRecord()) {
-			record.saveRecord("C:\\record.txt", puntos);
+			record.saveRecord("C:\\" + Messages.RECORD_FILENAME, puntos);
 		}
 	}
 
@@ -262,9 +270,10 @@ public class Game implements GameStatus, GameWorld {
 	}
 
 	public void checkValidObjectPosition(int col, int row) throws GameException {
-		if (container.isPositionFullOcuped(col, row) && col < GameWorld.NUM_COLS && row < GameWorld.NUM_ROWS) {
+		if (container.isPositionFullOcuped(col, row) || col >= GameWorld.NUM_COLS || row >= GameWorld.NUM_ROWS) {
 			throw new CommandExecuteException(Messages.INVALID_POSITION.formatted(col, row));
 		}
+
 	}
 
 	// Venian en el enunciado pero no los usaria
