@@ -89,6 +89,7 @@ public class Record {
 
 			lector.close();
 			escritor.close();
+			record = score; // acutalizar en el juego el record sin necesidad de cargar el archivo de nuevo
 
 		} catch (Exception e) {
 			throw new RecordException(Messages.RECORD_WRITE_ERROR);
