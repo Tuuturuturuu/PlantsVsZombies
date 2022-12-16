@@ -91,7 +91,7 @@ public class Record {
 				escritor.newLine();
 			}
 			escritor.close();
-			record = score; // actualiza el nuevo record del nivel
+			
 
 		} catch (Exception e) {
 			throw new RecordException(Messages.RECORD_WRITE_ERROR);

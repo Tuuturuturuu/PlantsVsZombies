@@ -101,6 +101,15 @@ public class GamePrinter {
 	 *         finished.
 	 */
 	public String endMessage() {
-		return Messages.END_MESSAGE + NEW_LINE + game.getGanador() + NEW_LINE + Messages.RECORD + game.getRecord();
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(Messages.END_MESSAGE + NEW_LINE + game.getGanador() + NEW_LINE);
+		if (game.getScore() > game.getRecord()) {
+			buffer.append(Messages.NEW_RECORD + game.getScore());
+		}
+		else {
+			buffer.append(Messages.RECORD + game.getRecord());
+		}
+		
+		return buffer.toString();
 	}
 }

@@ -1,1 +1,2 @@
 EASY: 40
+INSANE: 60
