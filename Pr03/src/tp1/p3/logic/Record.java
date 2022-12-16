@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import tp1.p3.control.Level;
 import tp1.p3.control.exceptions.RecordException;
@@ -16,7 +18,6 @@ public class Record {
 	public Record(Level level) throws RecordException {
 		record = 0;
 		this.level = level;
-
 	}
 
 	int getRecord() {
@@ -35,10 +36,9 @@ public class Record {
 			while ((cadena = lector.readLine()) != null) {
 				Scanner scanner = new Scanner(cadena);
 				String str = scanner.next();
-				if (str.equals(level.toString() + ":")) {
-					if (scanner.hasNextInt()) {
+				if (str.equals(level.toString() + ":")) { // comprobamos si esta el nivel
+					if (scanner.hasNextInt()) { //comprobamos que hay un numero
 						record = scanner.nextInt();
-						// El número leído es "num"
 					}
 				}
 
@@ -51,45 +51,47 @@ public class Record {
 	}
 
 	public void saveRecord(String fileName, int score) throws RecordException {
-		System.out.print(level.toString());
+
 		boolean escrito = false;
 		try {
+
 			FileReader archivoLector = new FileReader(fileName);
-			FileWriter archivoEscritor = new FileWriter(fileName, false); // false indica que se sobrescribe el archivo completamente
 			BufferedReader lector = new BufferedReader(archivoLector);
 
-			BufferedWriter escritor = new BufferedWriter(archivoEscritor);
-
-			String linea; // NO ENTRA EN EL BUCLE
-			System.out.print("NO   ENTRA EN EL BUCLE     ");
-			while ((linea = lector.readLine()) != null) {
-				System.out.print("ENTRA EN EL BUCLE     ");
-				Scanner scanner = new Scanner(linea);
-				if (scanner.hasNext()) {
-					String str = scanner.next();
-					if (str.equals(level.toString() + ":")) {
-						// Reemplaza la puntuación existente por la nueva
-						escrito = true;
-						escritor.write(level.toString() + ": " + score);
-					} else {
-						// Copia la línea tal cual al nuevo archivo
-						escritor.write(linea);
-						escritor.newLine();
-						escritor.write("A VER SI VA");
-					}
+			List<String> linea = new ArrayList();
+			String cadena;
+			int i = 0;
+			while ((cadena = lector.readLine()) != null) {
+				Scanner scanner = new Scanner(cadena);
+				String str = scanner.next();
+				if (str.equals(level.toString() + ":")) {
+					// Reemplaza la puntuación existente por la nueva
+					escrito = true; // ha encontrado su nivel creado entonces no hace falta crearlo
+					cadena = level.toString() + ": " + score;
 
 				}
-				System.out.print("ENTRA EN EL BUCLE     ");
-				escritor.newLine(); // Agrega una nueva línea al archivo
+
+				linea.add(cadena);
+
+				i++;
+			}
+			lector.close();
+			for (String tira : linea) {
+				System.out.print(tira);
+			}
+			FileWriter archivoEscritor = new FileWriter(fileName);
+			BufferedWriter escritor = new BufferedWriter(archivoEscritor);
+
+			for (String tira : linea) {
+				escritor.write(tira);
+				escritor.newLine();
 			}
 			if (!escrito) {
 				escritor.write(level.toString() + ": " + score);
 				escritor.newLine();
 			}
-
-			lector.close();
 			escritor.close();
-			record = score; // acutalizar en el juego el record sin necesidad de cargar el archivo de nuevo
+			record = score; // actualiza el nuevo record del nivel
 
 		} catch (Exception e) {
 			throw new RecordException(Messages.RECORD_WRITE_ERROR);

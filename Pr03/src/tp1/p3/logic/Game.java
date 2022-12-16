@@ -81,7 +81,7 @@ public class Game implements GameStatus, GameWorld {
 		this.container = new GameObjectContainer();
 
 		this.record = new Record(level);
-		record.loadRecords("C:\\" + Messages.RECORD_FILENAME);
+		record.loadRecords(Messages.RECORD_FILENAME);
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -231,7 +231,7 @@ public class Game implements GameStatus, GameWorld {
 		Command.newCycle();
 		// 7. Update record
 		if (puntos > record.getRecord()) {
-			record.saveRecord("C:\\" + Messages.RECORD_FILENAME, puntos);
+			record.saveRecord(Messages.RECORD_FILENAME, puntos);
 		}
 	}
 

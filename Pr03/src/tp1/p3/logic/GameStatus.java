@@ -53,4 +53,6 @@ public interface GameStatus {
 */
 	// TODO add your code here
 
+	int getRecord();
+
 }
