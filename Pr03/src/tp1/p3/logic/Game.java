@@ -80,8 +80,8 @@ public class Game implements GameStatus, GameWorld {
 		this.rand = new Random(seed);
 		this.container = new GameObjectContainer();
 
-		this.record = new Record(level);
-		record.loadRecords(Messages.RECORD_FILENAME);
+		this.record = Record.loadRecords(level);
+		
 		this.zombiesManager = new ZombiesManager(this, level, rand);
 		this.sunsManager = new SunsManager(this, rand);
 		this.suns = INIT_SUNS;
@@ -167,12 +167,10 @@ public class Game implements GameStatus, GameWorld {
 
 	public void addSunCoins() {
 		suns += SUNSCOINS_X_SUN;
-
 	}
 
 	public void addPuntos(int puntos) {
 		this.puntos += puntos;
-
 	}
 
 	public void tryToBuy(int cost) throws GameException {
@@ -230,8 +228,15 @@ public class Game implements GameStatus, GameWorld {
 		// 6. Notify commands that a new cycle started
 		Command.newCycle();
 		// 7. Update record
-		if (puntos > record.getRecord()) { //Aunque lo haria al terminar el juego no cada vez que se ejecute
-			record.saveRecord(Messages.RECORD_FILENAME, puntos);
+		if (isFinished() ||  playerQuit) {
+			
+		}
+		
+	}
+	
+	public void newScore() throws RecordException{
+		if (puntos > record.getRecord()) { 
+			record.saveRecord( puntos);
 		}
 	}
 

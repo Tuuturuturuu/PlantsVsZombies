@@ -1,6 +1,7 @@
 package tp1.p3.logic.gameobjects;
 
 import tp1.p3.logic.GameWorld;
+import tp1.p3.logic.actions.ExplosionAction;
 import tp1.p3.view.Messages;
 
 public abstract class Planta extends GameObject {

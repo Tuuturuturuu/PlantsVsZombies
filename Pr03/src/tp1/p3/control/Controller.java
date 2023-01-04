@@ -62,7 +62,7 @@ public class Controller {
 	 * @throws RecordException 
 	 * para que al acabar el juego actualice el record
 	 */
-	public void run() {
+	public void run() throws RecordException {
 		boolean refreshDisplay = true;
 		
 		
@@ -84,6 +84,7 @@ public class Controller {
 				System.out.println(error(e.getMessage()));
 			}
 		}
+		
 	
 		if (refreshDisplay) {
 			printGame();
@@ -91,6 +92,7 @@ public class Controller {
 		}
 
 		printEndMessage();
+		game.newScore();
 
 	}
 

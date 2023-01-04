@@ -6,11 +6,11 @@ import tp1.p3.view.Messages;
 public class Zombie extends Zombies {
 	
 	public static final int ZOMBIE_FRECUENCIA = 2;
-	public static final int ZOMBIE_DAÑO = 1;
+	public static final int ZOMBIE_DAMAGE = 1;
 	public static final int ZOMBIE_RESISTENCIA = 5;
 	
 	public Zombie(int col, int row, GameWorld game) {
-		super(col, row, ZOMBIE_FRECUENCIA  , ZOMBIE_RESISTENCIA, game, ZOMBIE_DAÑO);
+		super(col, row, ZOMBIE_FRECUENCIA  , ZOMBIE_RESISTENCIA, game, ZOMBIE_DAMAGE);
 	}
 	
 	public Zombie() {
@@ -28,7 +28,7 @@ public class Zombie extends Zombies {
 		return ZOMBIE_RESISTENCIA;
 	}
 	protected int getDamage() {
-		return ZOMBIE_DAÑO;
+		return ZOMBIE_DAMAGE;
 	}
 	protected int getSpeed() {
 		return ZOMBIE_FRECUENCIA;

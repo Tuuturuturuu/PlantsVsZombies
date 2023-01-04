@@ -8,13 +8,13 @@ public class Peashooter extends Planta {
 
 	public static final int PEASHOOTER_COSTE = 50;
 	public static final int PEASHOOTER_FRECUENCIA = 0;
-	public static final int PEASHOOTER_DAÑO = 1;
-	public static final int PEASHOOTER_RESISTENCIA = 3;
+	public static final int PEASHOOTER_DAMAGE = 1;
+	public static final int PEASHOOTER_RESISTENCIA = 3; 
 	
 	
 	
 	public Peashooter(int col, int row, GameWorld game) {
-		super(col, row, PEASHOOTER_FRECUENCIA, PEASHOOTER_RESISTENCIA, game, PEASHOOTER_DAÑO);
+		super(col, row, PEASHOOTER_FRECUENCIA, PEASHOOTER_RESISTENCIA, game, PEASHOOTER_DAMAGE);
 	}
 
 	public Peashooter() {
@@ -39,7 +39,7 @@ public class Peashooter extends Planta {
 		return PEASHOOTER_RESISTENCIA;
 	}
 	public int getdamage() {
-		return PEASHOOTER_DAÑO;
+		return PEASHOOTER_DAMAGE;
 	}
 
 	protected Planta create(GameWorld game, int col, int row) {

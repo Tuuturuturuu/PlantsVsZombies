@@ -6,12 +6,12 @@ import tp1.p3.view.Messages;
 public class WallNut extends Planta{
 	public static final int WALL_NUT_COSTE = 50;
 	public static final int WALL_NUT_FRECUENCIA = 0;
-	public static final int WALL_NUT_DAÑO = 0;
+	public static final int WALL_NUT_DAMAGE = 0;
 	public static final int WALL_NUT_RESISTENCIA = 10;
 
 
 	public WallNut(int col, int row, GameWorld game) {
-		super(col, row, WALL_NUT_FRECUENCIA, WALL_NUT_RESISTENCIA, game, WALL_NUT_DAÑO);
+		super(col, row, WALL_NUT_FRECUENCIA, WALL_NUT_RESISTENCIA, game, WALL_NUT_DAMAGE);
 	}
 
 	public WallNut() {
@@ -36,7 +36,7 @@ public class WallNut extends Planta{
 		return WALL_NUT_RESISTENCIA;
 	}
 	public int getdamage() {
-		return WALL_NUT_DAÑO;
+		return WALL_NUT_DAMAGE;
 	}
 
 	protected Planta create(GameWorld game, int col, int row) {

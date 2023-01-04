@@ -12,34 +12,40 @@ import tp1.p3.control.exceptions.RecordException;
 import tp1.p3.view.Messages;
 
 public class Record {
-	private int record;
+	private static int scoreRecord;
 	private Level level;
 
 	public Record(Level level) throws RecordException {
-		record = 0;
+		scoreRecord = 0;
 		this.level = level;
 	}
 
 	int getRecord() {
-		return record;
+		return scoreRecord;
 	}
 
-	public void loadRecords(String fileName) throws RecordException {
+	public static Record loadRecords(Level level) throws RecordException {
+		
+		Record record = new Record(level);
 
 		FileReader archivo;
 		BufferedReader lector;
 		try {
-			archivo = new FileReader(fileName);
+			archivo = new FileReader(Messages.RECORD_FILENAME);
 
 			lector = new BufferedReader(archivo);
 			String cadena;
 			while ((cadena = lector.readLine()) != null) {
 				Scanner scanner = new Scanner(cadena);
+				try  {
 				String str = scanner.next();
 				if (str.equals(level.toString() + ":")) { // comprobamos si esta el nivel
 					if (scanner.hasNextInt()) { //comprobamos que hay un numero
-						record = scanner.nextInt();
+						scoreRecord = scanner.nextInt();
 					}
+				}
+				}finally {
+					  scanner.close();
 				}
 
 			}
@@ -48,38 +54,41 @@ public class Record {
 		} catch (Exception e) {
 			throw new RecordException(Messages.RECORD_READ_ERROR);
 		}
+		return record;
 	}
 
-	public void saveRecord(String fileName, int score) throws RecordException {
+	public void saveRecord(int score) throws RecordException {
 
 		boolean escrito = false;
 		try {
 
-			FileReader archivoLector = new FileReader(fileName);
+			FileReader archivoLector = new FileReader(Messages.RECORD_FILENAME);
 			BufferedReader lector = new BufferedReader(archivoLector);
 
-			List<String> linea = new ArrayList();
+			List<String> linea = new ArrayList<String>();
 			String cadena;
-			int i = 0;
+			
 			while ((cadena = lector.readLine()) != null) {
 				Scanner scanner = new Scanner(cadena);
-				String str = scanner.next();
-				if (str.equals(level.toString() + ":")) {
-					// Reemplaza la puntuación existente por la nueva
-					escrito = true; // ha encontrado su nivel creado entonces no hace falta crearlo
-					cadena = level.toString() + ": " + score;
+				try  {
+					String str = scanner.next();
+					if (str.equals(level.toString() + ":")) {
+						// Reemplaza la puntuación existente por la nueva
+						escrito = true; // ha encontrado su nivel creado entonces no hace falta crearlo
+						cadena = level.toString() + ": " + score;
 
+					}
+				}finally {
+					  scanner.close();
 				}
-
 				linea.add(cadena);
 
-				i++;
+
 			}
+			
 			lector.close();
-			for (String tira : linea) {
-				System.out.print(tira);
-			}
-			FileWriter archivoEscritor = new FileWriter(fileName);
+			
+			FileWriter archivoEscritor = new FileWriter(Messages.RECORD_FILENAME);
 			BufferedWriter escritor = new BufferedWriter(archivoEscritor);
 
 			for (String tira : linea) {
@@ -94,7 +103,10 @@ public class Record {
 			
 
 		} catch (Exception e) {
+			
 			throw new RecordException(Messages.RECORD_WRITE_ERROR);
+			
 		}
+		
 	}
 }

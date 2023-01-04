@@ -6,11 +6,11 @@ import tp1.p3.view.Messages;
 public class Sporty extends Zombies{
 	
 	public static final int SPORTY_FRECUENCIA = 1;
-	public static final int SPORTY_DAÑO = 1;
+	public static final int SPORTY_DAMAGE = 1;
 	public static final int SPORTY_RESISTENCIA = 2;
 
 	public Sporty(int col, int row, GameWorld game) {
-		super(col, row, SPORTY_FRECUENCIA, SPORTY_RESISTENCIA, game, SPORTY_DAÑO);
+		super(col, row, SPORTY_FRECUENCIA, SPORTY_RESISTENCIA, game, SPORTY_DAMAGE);
 	}
 	
 	public Sporty() {
@@ -28,7 +28,7 @@ public class Sporty extends Zombies{
 		return SPORTY_RESISTENCIA;
 	}
 	protected int getDamage() {
-		return SPORTY_DAÑO;
+		return SPORTY_DAMAGE;
 	}
 	protected int getSpeed() {
 		return SPORTY_FRECUENCIA;
