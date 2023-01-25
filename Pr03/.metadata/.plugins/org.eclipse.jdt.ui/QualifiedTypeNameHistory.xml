@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="tp1.p3.control.commands.FireWaveCommand"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.actions.ExplosionAction"/>
+    <fullyQualifiedTypeName name="tp1.p3.control.commands.HealCommand"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.GameWorld"/>
+    <fullyQualifiedTypeName name="tp1.p3.control.commands.ShovelCommand"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.Game"/>
+    <fullyQualifiedTypeName name="tp1.p3.control.exceptions.EmptyPositionException"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.actions.HealAction"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.actions.HealActionZombie"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.actions.HealActionPlant"/>
+    <fullyQualifiedTypeName name="tp1.p3.logic.actions.BoostAction"/>
+</qualifiedTypeNameHistroy>
